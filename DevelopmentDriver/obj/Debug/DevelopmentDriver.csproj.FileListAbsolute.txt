@@ -16,3 +16,6 @@ C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\NotaConjugator.dll
 C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\NotaConjugator.pdb
 C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\StringUtils.dll
 C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\StringUtils.pdb
+C:\Shai\Projects\NotadoraSolution\DevelopmentDriver\bin\Debug\DevelopmentDriver.exe.config
+C:\Shai\Projects\NotadoraSolution\DevelopmentDriver\obj\Debug\DevelopmentDriver.exe
+C:\Shai\Projects\NotadoraSolution\DevelopmentDriver\obj\Debug\DevelopmentDriver.pdb
