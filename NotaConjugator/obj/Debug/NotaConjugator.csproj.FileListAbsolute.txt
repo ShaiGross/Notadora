@@ -1,0 +1,7 @@
+C:\Projects\Dev\NotadoraSolution\NotaConjugator\bin\Debug\NotaConjugator.dll
+C:\Projects\Dev\NotadoraSolution\NotaConjugator\bin\Debug\NotaConjugator.pdb
+C:\Projects\Dev\NotadoraSolution\NotaConjugator\bin\Debug\DomainModels.dll
+C:\Projects\Dev\NotadoraSolution\NotaConjugator\bin\Debug\DomainModels.pdb
+C:\Projects\Dev\NotadoraSolution\NotaConjugator\obj\Debug\NotaConjugator.csprojResolveAssemblyReference.cache
+C:\Projects\Dev\NotadoraSolution\NotaConjugator\obj\Debug\NotaConjugator.dll
+C:\Projects\Dev\NotadoraSolution\NotaConjugator\obj\Debug\NotaConjugator.pdb

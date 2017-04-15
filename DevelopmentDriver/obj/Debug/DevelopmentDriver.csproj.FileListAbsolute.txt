@@ -1,0 +1,16 @@
+C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\DevelopmentDriver.exe.config
+C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\DevelopmentDriver.exe
+C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\DevelopmentDriver.pdb
+C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\DomainModels.dll
+C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\DomainModels.pdb
+C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\obj\Debug\DevelopmentDriver.csprojResolveAssemblyReference.cache
+C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\obj\Debug\DevelopmentDriver.exe
+C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\obj\Debug\DevelopmentDriver.pdb
+C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\EntityFramework.dll
+C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\EntityFramework.SqlServer.dll
+C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\EntityFramework.xml
+C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\EntityFramework.SqlServer.xml
+C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\ConjugationsIngestor.dll
+C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\ConjugationsIngestor.pdb
+C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\NotaConjugator.dll
+C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\NotaConjugator.pdb

@@ -1,0 +1,7 @@
+C:\Projects\Dev\NotadoraSolution\ConjugationsIngestor\bin\Debug\ConjugationsIngestor.dll
+C:\Projects\Dev\NotadoraSolution\ConjugationsIngestor\bin\Debug\ConjugationsIngestor.pdb
+C:\Projects\Dev\NotadoraSolution\ConjugationsIngestor\obj\Debug\ConjugationsIngestor.csprojResolveAssemblyReference.cache
+C:\Projects\Dev\NotadoraSolution\ConjugationsIngestor\obj\Debug\ConjugationsIngestor.dll
+C:\Projects\Dev\NotadoraSolution\ConjugationsIngestor\obj\Debug\ConjugationsIngestor.pdb
+C:\Projects\Dev\NotadoraSolution\ConjugationsIngestor\bin\Debug\DomainModels.dll
+C:\Projects\Dev\NotadoraSolution\ConjugationsIngestor\bin\Debug\DomainModels.pdb
