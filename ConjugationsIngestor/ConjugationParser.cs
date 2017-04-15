@@ -28,9 +28,9 @@ namespace ConjugationsIngestor
             presentParticiple = parsePresentParticiple(ref html);
             pastParticiple = parsePastParticiple(ref html);
             
-            var tensesConjugations = sortTenseList(allTenses);
+            var tensesConjugations = sortTenseList(allTenses, pastParticiple, presentParticiple);
 
-            parseTenses(html, tensesConjugations);
+            parseTenses(html, tensesConjugations);            
 
             return tensesConjugations;
         }
@@ -66,7 +66,9 @@ namespace ConjugationsIngestor
             return englishInf.TrimEnd();
         }
 
-        private Dictionary<Tense, List<string>> sortTenseList(List<Tense> unsortedTenses)
+        private Dictionary<Tense, List<string>> sortTenseList(List<Tense> unsortedTenses,
+                                                              string pastParticiple,
+                                                              string presentParticiple)
         {
             var sortedTenses = new Dictionary<Tense, List<string>>(unsortedTenses.Count);
             Tense currTense;
@@ -85,13 +87,23 @@ namespace ConjugationsIngestor
                 sortedTenses.Add(currTense, 
                                  new List<string>(currTense.PersonsCount));
 
+                currTense = unsortedTenses.First(t => t.Name == "Conditional");
+                sortedTenses.Add(currTense, 
+                                 new List<string>(currTense.PersonsCount));
+
                 currTense = unsortedTenses.First(t => t.Name == "Future");
                 sortedTenses.Add(currTense, 
                                  new List<string>(currTense.PersonsCount));
 
-                currTense = unsortedTenses.First(t => t.Name == "Conditional");
-                sortedTenses.Add(currTense, 
+                currTense = unsortedTenses.First(t => t.Name == "Past Participle");
+                sortedTenses.Add(currTense,
                                  new List<string>(currTense.PersonsCount));
+                sortedTenses[currTense].Add(pastParticiple);
+
+                currTense = unsortedTenses.First(t => t.Name == "Present Participle");
+                sortedTenses.Add(currTense,
+                                 new List<string>(currTense.PersonsCount));
+                sortedTenses[currTense].Add(presentParticiple);
 
             }
             catch
@@ -152,7 +164,7 @@ namespace ConjugationsIngestor
             var tableRigth = html.IndexOf("</table>");
 
             html = html.Substring(tableLeft, tableRigth - tableLeft).Replace(" ", "");
-            var tenses = tensesConjugations.Keys.ToList();
+            var tenses = tensesConjugations.Keys.Where(t => !t.Name.Contains("Participle")).ToList();
 
             for (int trIndex = 0; trIndex < maxPersonPerTenses; trIndex++)
             {
@@ -161,7 +173,7 @@ namespace ConjugationsIngestor
                 html = html.Remove(firstTdLeft, firstTdRight - firstTdLeft);
                 html = html.Replace("<spanclass='conj-irregular'>", "").Replace("</span>", "");                
 
-                for (int tenseIndex = 0; tenseIndex < tensesConjugations.Count; tenseIndex++)
+                for (int tenseIndex = 0; tenseIndex < tenses.Count; tenseIndex++)
                 {
                     var currTense = tenses[tenseIndex];
                     var tdLeft = html.IndexOf("\">") + "\">".Length;
@@ -174,15 +186,14 @@ namespace ConjugationsIngestor
                     conjugatedGrammPerson = conjugatedGrammPerson.Trim();
                     fixAccentedLatters(ref conjugatedGrammPerson);
 
-                    if (tenseIndex + 1 != tensesConjugations.Count || trIndex != 5)
-
+                    if (tenseIndex + 1 != tenses.Count || trIndex != 5)
                         html = html.Remove(tdLeft, tdRight - tdLeft + "<tdclass=\"vtable-word\"></td>".Length);
 
                     tensesConjugations[currTense].Add(conjugatedGrammPerson);
                 }
             }
 
-            foreach (var currTense in tensesConjugations.Keys)
+            foreach (var currTense in tenses)
             {
                 tensesConjugations[currTense][4] = tensesConjugations[currTense][5];
             }

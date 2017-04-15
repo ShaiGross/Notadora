@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StringUtils;
+using System;
 using System.Collections.Generic;
 using System.Data.Linq.Mapping;
 using System.Linq;
@@ -35,11 +36,11 @@ namespace NotaDAL.Models
         {
             get
             {
-                if (Infinative.EndsWith("ar"))
+                if (Infinative.DiacriticsEndsWith("ar"))
                     return VerbType.ar;
-                else if (Infinative.EndsWith("er"))
+                else if (Infinative.DiacriticsEndsWith("er"))
                     return VerbType.er;
-                else if (Infinative.EndsWith("ir"))
+                else if (Infinative.DiacriticsEndsWith("ir"))
                     return VerbType.ir;
                 else
                 {

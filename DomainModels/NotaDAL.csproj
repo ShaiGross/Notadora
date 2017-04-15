@@ -77,6 +77,12 @@
   <ItemGroup>
     <Content Include="Deployment Scripts\CreateTables.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StringUtils\StringUtils.csproj">
+      <Project>{0e086d7a-70b6-4b6a-a542-84e2c2f2b7bc}</Project>
+      <Name>StringUtils</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

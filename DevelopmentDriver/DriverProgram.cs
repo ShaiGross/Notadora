@@ -18,7 +18,7 @@ namespace DevelopmentDriver
         {
             using (var context = new NotaContext())
             {
-                var infinative = "venir";
+                var infinative = "oír";
                 string presentParticiple;
                 string pastParticiple;
                 string englishInf;
@@ -34,7 +34,7 @@ namespace DevelopmentDriver
 
                 verb = context.AddVerb(verb);
 
-                var classifyingSuccess = conjugator.ClassifyVerbConjugators(verb, tensesConjugations);
+               conjugator.ClassifyVerbConjugators(verb, tensesConjugations);
             }
         }   
 

@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotadoraDataMigration", "No
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotadoraModels", "..\..\..\Users\user\Documents\Visual Studio 2015\Projects\NotadoraModels\NotadoraModels\NotadoraModels.csproj", "{94381478-1299-4D46-8BD6-C3FC9E8F4149}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringUtils", "StringUtils\StringUtils.csproj", "{0E086D7A-70B6-4B6A-A542-84E2C2F2B7BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{94381478-1299-4D46-8BD6-C3FC9E8F4149}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94381478-1299-4D46-8BD6-C3FC9E8F4149}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94381478-1299-4D46-8BD6-C3FC9E8F4149}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E086D7A-70B6-4B6A-A542-84E2C2F2B7BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E086D7A-70B6-4B6A-A542-84E2C2F2B7BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E086D7A-70B6-4B6A-A542-84E2C2F2B7BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E086D7A-70B6-4B6A-A542-84E2C2F2B7BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

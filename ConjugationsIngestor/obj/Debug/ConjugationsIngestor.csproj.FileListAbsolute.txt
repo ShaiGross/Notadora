@@ -5,3 +5,5 @@ C:\Projects\Dev\NotadoraSolution\ConjugationsIngestor\obj\Debug\ConjugationsInge
 C:\Projects\Dev\NotadoraSolution\ConjugationsIngestor\obj\Debug\ConjugationsIngestor.pdb
 C:\Projects\Dev\NotadoraSolution\ConjugationsIngestor\bin\Debug\DomainModels.dll
 C:\Projects\Dev\NotadoraSolution\ConjugationsIngestor\bin\Debug\DomainModels.pdb
+C:\Projects\Dev\NotadoraSolution\ConjugationsIngestor\bin\Debug\StringUtils.dll
+C:\Projects\Dev\NotadoraSolution\ConjugationsIngestor\bin\Debug\StringUtils.pdb

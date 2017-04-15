@@ -110,7 +110,9 @@ namespace NotaDAL
             {
                 try
                 {
-                    tense.IrregularConjugationRules = ConjugationRules.Where(cr => cr.TenseId == tense.Id).ToList();
+                    tense.IrregularConjugationRules = ConjugationRules.Where(cr => (cr.TenseId == tense.Id) &&
+                                                                                   (!cr.IsRegular))
+                                                                      .ToList();
                 }
                 catch { }
             }

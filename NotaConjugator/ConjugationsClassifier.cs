@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NotaDAL;
 using NotaDAL.Models;
+using StringUtils;
 
 namespace NotaConjugator
 {
@@ -28,7 +29,7 @@ namespace NotaConjugator
 
         #region Methods
 
-        public string ClassifyVerbConjugators(Verb verb, Dictionary<Tense, List<string>> tensesConjugations)
+        public void ClassifyVerbConjugators(Verb verb, Dictionary<Tense, List<string>> tensesConjugations)
         {
 
             sortTensesConjugations(ref tensesConjugations);
@@ -57,8 +58,6 @@ namespace NotaConjugator
                                                           tenseConjugations.Value);
                 }
             }
-
-            return null;
         }
 
         private void sortTensesConjugations(ref Dictionary<Tense, List<string>> tensesConjugations)
@@ -77,7 +76,7 @@ namespace NotaConjugator
             tensesConjugations = tempTensesConjugations;
         }
 
-        private bool IsVerbRegular(Verb verb, 
+        private bool IsVerbRegular(Verb verb,
                                    Tense tense,
                                    List<string> tenseConjugations,
                                    ref string conjData)
@@ -152,12 +151,16 @@ namespace NotaConjugator
                                                             List<Person> persons,
                                                             ref string conjData)
         {
-            var conjugationRuleType = conjugationRule.Type;
-            string verbPattern = null;
-            string newPattern = null;
             List<int> affectedPersonsIds = new List<int>();
+            conjData = null;
+            string verbPattern = null;
+            var conjugationRuleType = conjugationRule.Type;
 
-            var isSpecialconjugationRule = (conjugationRuleType == ConjugationRuleType.SpecialConjugation);
+            if ((persons == null) || (!persons.Any()) ||
+                (conjugations == null) || (!conjugations.Any()))
+            {
+                return false;
+            }
 
             foreach (var person in persons)
             {
@@ -165,50 +168,58 @@ namespace NotaConjugator
                 var conjugation = conjugations[personIndex];
                 var instruction = instructions.FirstOrDefault(i => i.PersonId == person.Id);
                 var suffix = instruction.Suffix;
-                var suffixMatch = conjugation.EndsWith(suffix);
 
-                if (!suffixMatch)
+                if (!conjugation.DiacriticsEndsWith(suffix))
                     return false;
-                else if (!isSpecialconjugationRule)
-                {
-                    newPattern = conjugation.Remove(conjugation.LastIndexOf(suffix));
 
-                    if (string.IsNullOrEmpty(verbPattern))
-                        verbPattern = newPattern;
-                    else if (verbPattern != newPattern)
-                        return false;
-                }
+                var suffixIndex = conjugation.DiacriticsLastIndexOf(suffix);
+
+                var newPattern = (conjugationRuleType == ConjugationRuleType.SpecialConjugation) ? conjugation : conjugation.Remove(suffixIndex);
+
+                if (!IsParrtnValid(verb, conjugationRuleType, newPattern, ref verbPattern))
+                    return false;
 
                 affectedPersonsIds.Add(person.Id);
-            }            
+            }
 
-            if (isSpecialconjugationRule ||
-                                   IsPatternValid(verb,
-                                   verbPattern,
-                                   conjugationRuleType))
-            {
+            if (conjugationRuleType != ConjugationRuleType.Independent)
                 conjData = verbPattern;
-                ignorePersonsIds.AddRange(affectedPersonsIds);
+
+            ignorePersonsIds.AddRange(affectedPersonsIds);
+
+            return true;
+        }
+
+        private bool IsParrtnValid(Verb verb,
+                                   ConjugationRuleType conjugationRuleType,
+                                   string newPattern,
+                                   ref string oldPattern)
+        {
+            if (conjugationRuleType == ConjugationRuleType.SpecialConjugation)
+            {
+                if (!string.IsNullOrEmpty(oldPattern))
+                    oldPattern += ";";
+
+                oldPattern += $"{newPattern}";
                 return true;
             }
 
-            return false;
-        }
+            else if (string.IsNullOrEmpty(oldPattern))
+                oldPattern = newPattern;
+            else if (oldPattern != newPattern)
+                return false;
 
-        private bool IsPatternValid(Verb verb, string pattern, ConjugationRuleType type)
-        {
-            switch (type)
+            switch (conjugationRuleType)
             {
                 case ConjugationRuleType.Independent:
-                    return (pattern == verb.Stem) ||
-                            (pattern == verb.Infinative);
+                    return newPattern == verb.Stem || newPattern == verb.Infinative;
                 case ConjugationRuleType.NewStemDependent:
-                    return (pattern != verb.Stem);
+                    return (newPattern != verb.Stem);
                 case ConjugationRuleType.NewInfDependent:
-                    return (pattern != verb.Infinative);
+                    return (newPattern != verb.Infinative);
+                default:
+                    throw new Exception("Unexpeted Verb Type");
             }
-
-            return true;
         }
 
         #endregion

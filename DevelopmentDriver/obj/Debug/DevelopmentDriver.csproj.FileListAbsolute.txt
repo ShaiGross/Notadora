@@ -14,3 +14,5 @@ C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\ConjugationsIngesto
 C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\ConjugationsIngestor.pdb
 C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\NotaConjugator.dll
 C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\NotaConjugator.pdb
+C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\StringUtils.dll
+C:\Projects\Dev\NotadoraSolution\DevelopmentDriver\bin\Debug\StringUtils.pdb
