@@ -9,7 +9,7 @@ using StringUtils;
 
 namespace NotaConjugator
 {
-    public class Conjugator
+    public class ConjugationsClassifier
     {
         #region Data Members
 
@@ -20,7 +20,7 @@ namespace NotaConjugator
 
         #region Ctors
 
-        public Conjugator(NotaContext dataContext)
+        public ConjugationsClassifier(NotaContext dataContext)
         {
             context = dataContext;
         }

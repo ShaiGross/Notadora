@@ -9,34 +9,53 @@ using NotaDAL.Models;
 using System.Data.Entity;
 using ConjugationsIngestor;
 using NotaConjugator;
+using System.Configuration;
 
 namespace DevelopmentDriver
 {
     class DriverProgram
     {
+        #region Consts
+
+        const string INFINATIVES_FILE_APP_KEY = "INFINATIVES_FILE";
+
+        #endregion
+
         static void Main(string[] args)
         {
             using (var context = new NotaContext())
-            {
-                var infinative = "oír";
-                string presentParticiple;
-                string pastParticiple;
-                string englishInf;
+            {                
+                string presentParticiple, pastParticiple, englishInf;
+
+                var infinatives = readInfinatives();
                 var allTenses = context.Tenses.ToList();
-                var tensesConjugations = IngestConjugations(infinative,
+
+                foreach (var infinative in infinatives)
+                {
+                    var tensesConjugations = IngestConjugations(infinative,
                                                       allTenses,
                                                       out englishInf,
                                                       out presentParticiple,
                                                       out pastParticiple);
 
-                Verb verb = new Verb(infinative, englishInf, "Needs Description");
-                var conjugator = new Conjugator(context);
+                    Verb verb = new Verb(infinative, englishInf, "Needs Description");
+                    var conjugator = new ConjugationsClassifier(context);
 
-                verb = context.AddVerb(verb);
+                    verb = context.AddVerb(verb);
 
-               conjugator.ClassifyVerbConjugators(verb, tensesConjugations);
+                    conjugator.ClassifyVerbConjugators(verb, tensesConjugations);
+                }                
             }
         }   
+
+        private static List<string> readInfinatives()
+        {
+            var filePath = ConfigurationManager.AppSettings[INFINATIVES_FILE_APP_KEY];
+            var infinatives = System.IO.File.ReadAllText(filePath);
+            infinatives = infinatives.Replace("\r", string.Empty);
+
+            return infinatives.Split('\n').ToList();
+        }
 
         private static Dictionary<Tense, List<string>> IngestConjugations(string infinative,
                                                                           List<Tense> allTenses,
