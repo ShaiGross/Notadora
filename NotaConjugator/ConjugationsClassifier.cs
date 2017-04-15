@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NotaDAL;
 using NotaDAL.Models;
 using StringUtils;
+using NotaDAL.Context;
 
 namespace NotaConjugator
 {
@@ -13,14 +14,14 @@ namespace NotaConjugator
     {
         #region Data Members
 
-        private NotaContext context;
+        private NotaContextAcces context;
         private List<int> ignorePersonsIds = new List<int>();
 
         #endregion
 
         #region Ctors
 
-        public ConjugationsClassifier(NotaContext dataContext)
+        public ConjugationsClassifier(NotaContextAcces dataContext)
         {
             context = dataContext;
         }
@@ -45,9 +46,10 @@ namespace NotaConjugator
 
                 if (IsVerbRegular(verb, tense, tenseConjugations.Value, ref conjData))
                 {
-                    context.AddVerbConjugationRule(verb,
-                                                   regularConjugationRule,
-                                                   conjData);
+                    var verbConjugationRule = context.CreateVerbConjugationRule(verb,
+                                                                                regularConjugationRule,
+                                                                                conjData);
+                    context.AddItem<VerbsConjugationRule>(verbConjugationRule);
                     continue;
                 }
                 else
@@ -105,7 +107,11 @@ namespace NotaConjugator
                                               conjugationRule,
                                               ref conjData))
                 {
-                    context.AddVerbConjugationRule(verb, conjugationRule, conjData);
+                    var verbConjugationRule = context.CreateVerbConjugationRule(verb,
+                                                                                conjugationRule,
+                                                                                conjData);
+                    context.AddItem<VerbsConjugationRule>(verbConjugationRule);
+
                     if (ignorePersonsIds.Count == tense.PersonsCount ||
                         IsVerbRegular(verb, tense, conjugations, ref conjData))
                     {
@@ -125,8 +131,9 @@ namespace NotaConjugator
             List<ConjugationRulesInstruction> instructions = null;
             try
             {
-                instructions = context.VerbConjugationInstructions.Where(vci => (vci.ConjugationRuleId == conjugationRule.Id) &&
-                                                                                (vci.VerbType == verb.Type)).ToList();
+                instructions = context.GetItemList<ConjugationRulesInstruction>()
+                                      .Where(vci => (vci.ConjugationRuleId == conjugationRule.Id) &&
+                                                    (vci.VerbType == verb.Type)).ToList();
             }
             catch { }
 
@@ -185,6 +192,7 @@ namespace NotaConjugator
             if (conjugationRuleType != ConjugationRuleType.Independent)
                 conjData = verbPattern;
 
+            Console.WriteLine($"{verb.Infinative} Applies { conjugationRule.Name}");
             ignorePersonsIds.AddRange(affectedPersonsIds);
 
             return true;

@@ -8,15 +8,24 @@ using System.Threading.Tasks;
 namespace NotaDAL.Models
 {
     [Table(Name = "ConjugationRulePersons")]
-    public class ConjugationRulePerson
+    public class ConjugationRulePerson : NotaDbObject<ConjugationRulePerson>
     {
+        #region Properties
+
         [Column(IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id;
+        public int Id { get; set; }
 
         [Column(CanBeNull = false)]
-        public int ConjugationRuleId;
+        public int ConjugationRuleId { get; set; }
 
         [Column(CanBeNull = false)]
-        public int PersonId;
+        public int PersonId { get; set; }
+
+        #endregion
+
+        public bool DbCompare(ConjugationRulePerson other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

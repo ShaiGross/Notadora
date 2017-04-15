@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace NotaDAL.Models
 {
+    #region Enums
+
     public enum PersonFormality
     {
         Formal,
@@ -34,29 +36,37 @@ namespace NotaDAL.Models
         Third
     }
 
+    #endregion
+
     [Table(Name = "Persons")]
-    public class Person
+    public class Person : NotaDbObject<Person>
     {
+        #region Properties
+
         [Column(IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id;
+        public int Id { get; set; }
 
         [Column(CanBeNull = false)]
-        public string SpanishExpression;        
+        public string SpanishExpression { get; set; }
 
         [Column(CanBeNull = false)]
-        public string Description;
+        public string Description { get; set; }
 
         [Column(DbType = "INT")]
-        public PersonPlurality Plurality;
+        public PersonPlurality Plurality { get; set; }
 
         [Column(DbType = "INT")]
-        public PersonFormality Formality;
+        public PersonFormality Formality { get; set; }
 
         [Column(DbType = "INT")]
-        public PersonGender Gender;
+        public PersonGender Gender { get; set; }
 
         [Column(DbType = "INT")]
-        public PersonOrder Order;
+        public PersonOrder Order { get; set; }
+
+        #endregion
+
+        #region Methods
 
         public int GetIndex()
         {
@@ -68,5 +78,16 @@ namespace NotaDAL.Models
 
             return pluralityValue + orderValue;
         }
+
+        #endregion
+
+        #region NotaDbObject Implementation
+
+        public bool DbCompare(Person other)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

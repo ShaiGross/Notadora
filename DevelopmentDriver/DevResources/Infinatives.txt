@@ -1,4 +1,5 @@
-﻿oír
+﻿mudar
+oír
 mantener
 obtener
 conseguir

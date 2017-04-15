@@ -16,32 +16,41 @@ namespace NotaDAL.Models
     }
 
     [Table(Name = "ConjugationRules")]
-    public class ConjugationRule : IComparable<ConjugationRule>
+    public class ConjugationRule : NotaDbObject<ConjugationRule>, IComparable<ConjugationRule>
     {
-        #region Props
+        #region Properties
 
         [Column(IsDbGenerated = true, IsPrimaryKey = true)]
-        public int Id;
+        public int Id { get; set; }
 
         [Column(CanBeNull = false)]
-        public string Name;
+        public string Name { get; set; }
 
         [Column(CanBeNull = false)]
-        public string Description;
+        public string Description { get; set; }
 
         [Column(CanBeNull = false)]
-        public int TenseId;
+        public int TenseId { get; set; }
 
         [Column(DbType = "INT")]
-        public ConjugationRuleType Type;
+        public ConjugationRuleType Type { get; set; }
 
         [Column(DbType = "INT", CanBeNull = false)]
-        public bool IsRegular;
+        public bool IsRegular { get; set; }
 
         [Column(CanBeNull = false)]
-        public int PersonCount;
+        public int PersonCount { get; set; }
 
-        internal List<Person> Persons;
+        internal List<Person> Persons { get; set; }
+
+        #endregion
+
+        #region NotaDbObject Implementation
+
+        public bool DbCompare(ConjugationRule other)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
@@ -61,9 +70,9 @@ namespace NotaDAL.Models
             }
 
             return personsDiff / Math.Abs(personsDiff);
-        }
+        }        
 
-        #endregion    
+        #endregion
     }
 
 }

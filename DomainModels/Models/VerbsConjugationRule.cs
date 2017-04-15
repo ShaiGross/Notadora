@@ -8,18 +8,30 @@ using System.Threading.Tasks;
 namespace NotaDAL.Models
 {
     [Table(Name = "VerbsConjugationRules")]
-    public class VerbsConjugationRule
+    public class VerbsConjugationRule : NotaDbObject<VerbsConjugationRule>
     {
+        #region Properties
+
         [Column(IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id;
+        public int Id { get; set; }
 
         [Column(CanBeNull = false)]
-        public int VerbId;
+        public int VerbId { get; set; }
 
         [Column(CanBeNull = false)]
-        public int ConjugationRuleId;
+        public int ConjugationRuleId { get; set; }
 
-        public string ConjugationData;
+        public string ConjugationData { get; set; }
 
+        #endregion
+
+        #region NotaDbObject Implementation
+
+        public bool DbCompare(VerbsConjugationRule other)
+        {
+            return (VerbId == other.VerbId && ConjugationRuleId == other.ConjugationRuleId);
+        }
+
+        #endregion
     }
 }

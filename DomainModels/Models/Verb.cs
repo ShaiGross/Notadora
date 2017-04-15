@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace NotaDAL.Models
 {
+    #region Enums
+
     public enum VerbType
     {
         ar,
@@ -15,10 +17,12 @@ namespace NotaDAL.Models
         ir
     }
 
+    #endregion
+
     [Table(Name = "Verbs")]
-    public class Verb
+    public class Verb : NotaDbObject<Verb>
     {
-        #region Props
+        #region Properties
 
         [Column(IsPrimaryKey = true, IsDbGenerated = true)]
         public int Id { get; set; }
@@ -70,6 +74,15 @@ namespace NotaDAL.Models
         #region Expression-Bodies Members
 
         public string Stem => Infinative.Remove(Infinative.Length - 2);
+
+        #endregion
+
+        #region NotaDbObject Implementation
+
+        public bool DbCompare(Verb other)
+        {
+            return (this.Infinative == other.Infinative);
+        }
 
         #endregion
     }

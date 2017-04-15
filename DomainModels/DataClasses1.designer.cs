@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DomainModels
+namespace NotaDAL
 {
 	using System.Data.Linq;
 	using System.Data.Linq.Mapping;

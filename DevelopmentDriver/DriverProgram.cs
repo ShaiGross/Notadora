@@ -10,6 +10,7 @@ using System.Data.Entity;
 using ConjugationsIngestor;
 using NotaConjugator;
 using System.Configuration;
+using NotaDAL.Context;
 
 namespace DevelopmentDriver
 {
@@ -23,12 +24,12 @@ namespace DevelopmentDriver
 
         static void Main(string[] args)
         {
-            using (var context = new NotaContext())
+            using (var context = new NotaContextAcces())
             {                
                 string presentParticiple, pastParticiple, englishInf;
 
                 var infinatives = readInfinatives();
-                var allTenses = context.Tenses.ToList();
+                var allTenses = context.GetItemList<Tense>();
 
                 foreach (var infinative in infinatives)
                 {
@@ -41,7 +42,7 @@ namespace DevelopmentDriver
                     Verb verb = new Verb(infinative, englishInf, "Needs Description");
                     var conjugator = new ConjugationsClassifier(context);
 
-                    verb = context.AddVerb(verb);
+                    verb = context.AddItem<Verb>(verb);
 
                     conjugator.ClassifyVerbConjugators(verb, tensesConjugations);
                 }                
