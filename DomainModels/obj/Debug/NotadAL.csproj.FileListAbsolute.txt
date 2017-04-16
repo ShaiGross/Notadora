@@ -1,8 +1,0 @@
-C:\Projects\Dev\NotadoraSolution\DomainModels\obj\Debug\NotadAL.csprojResolveAssemblyReference.cache
-C:\Projects\Dev\NotadoraSolution\DomainModels\bin\Debug\DomainModels.dll.config
-C:\Projects\Dev\NotadoraSolution\DomainModels\bin\Debug\DomainModels.dll
-C:\Projects\Dev\NotadoraSolution\DomainModels\bin\Debug\DomainModels.pdb
-C:\Projects\Dev\NotadoraSolution\DomainModels\obj\Debug\DomainModels.dll
-C:\Projects\Dev\NotadoraSolution\DomainModels\obj\Debug\DomainModels.pdb
-C:\Projects\Dev\NotadoraSolution\DomainModels\bin\Debug\StringUtils.dll
-C:\Projects\Dev\NotadoraSolution\DomainModels\bin\Debug\StringUtils.pdb

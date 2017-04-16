@@ -1,4 +1,6 @@
-﻿CREATE TABLE [dbo].[VerbsConjugationRules] (
+﻿
+
+CREATE TABLE [dbo].[VerbsConjugationRules] (
     [Id]                INT            IDENTITY (1, 1) NOT NULL,
     [VerbId]            INT            NOT NULL,
     [ConjugationRuleId] INT            NOT NULL,
@@ -69,3 +71,10 @@ CREATE TABLE [dbo].[ConjugationRulePersons] (
     CONSTRAINT [AK_ConjugationRulePersons_Complex] UNIQUE NONCLUSTERED ([ConjugationRuleId] ASC, [PersonId] ASC)
 );
 
+CREATE TABLE [dbo].[ConjugationMatches]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[VerbId] INT NOT NULL,
+	[ConjugationRuleId]  INT NOT NULL,
+	[ConjugationString] NVARCHAR(50) NULL,
+);

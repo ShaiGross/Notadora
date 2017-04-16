@@ -131,7 +131,7 @@ namespace NotaDAL.Context
                         .ToList();
         }
 
-        public T AddItem<T>(T item) where T : NotaDbObject<T>
+        public T AddItem<T>(T item, bool submit = true) where T : NotaDbObject<T>
         {
             var itemsList = GetItemList<T>();
             var insertedItem = itemsList.FirstOrDefault(dbItem => dbItem.DbCompare(item));
@@ -142,12 +142,26 @@ namespace NotaDAL.Context
             {
                 var table = context.GetTable(typeof(T));
                 table.InsertOnSubmit(item);
-                context.SubmitChanges();
+
+                if (submit)
+                    context.SubmitChanges();
             }
 
             return item;
         }
 
-        #endregion  
+        public ConjugationMatch CreateConjugationMatch(int VerbId, int conjugationRuleId, int personId, string ConjugationString)
+        {
+            return new ConjugationMatch(VerbId, conjugationRuleId, personId, ConjugationString);
+        }
+
+        public List<T> AddItems<T>(List<T> items) where T  : NotaDbObject<T>
+        {
+            var insertedItems = items.Select(item => AddItem<T>(item, false)).ToList();
+            context.SubmitChanges();
+            return insertedItems;
+        }
+
+        #endregion
     }
 }

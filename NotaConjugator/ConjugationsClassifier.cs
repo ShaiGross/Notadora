@@ -16,6 +16,7 @@ namespace NotaConjugator
 
         private NotaContextAcces context;
         private List<int> ignorePersonsIds = new List<int>();
+        private string conjugationString;
 
         #endregion
 
@@ -42,13 +43,12 @@ namespace NotaConjugator
                 var tense = tenseConjugations.Key;
                 var regularConjugationRule = context.GetTenseRegularConjugationRule(tense);
                 var IrregularConjugationRules = context.GetTenseIrregularConjugationRules(tense);
-                string conjData = null;
 
-                if (IsVerbRegular(verb, tense, tenseConjugations.Value, ref conjData))
+                if (IsVerbRegular(verb, tense, tenseConjugations.Value))
                 {
                     var verbConjugationRule = context.CreateVerbConjugationRule(verb,
                                                                                 regularConjugationRule,
-                                                                                conjData);
+                                                                                conjugationString);
                     context.AddItem<VerbsConjugationRule>(verbConjugationRule);
                     continue;
                 }
@@ -80,13 +80,11 @@ namespace NotaConjugator
 
         private bool IsVerbRegular(Verb verb,
                                    Tense tense,
-                                   List<string> tenseConjugations,
-                                   ref string conjData)
+                                   List<string> tenseConjugations)
         {
             return IsConjugatorAppliedToVerb(verb,
                                              tenseConjugations,
-                                             tense.RegularConjugationRule,
-                                             ref conjData);
+                                             tense.RegularConjugationRule);
         }
 
         private void ClassifyVerbIrregularConjugationRules(Verb verb,
@@ -104,8 +102,7 @@ namespace NotaConjugator
             {
                 if (IsConjugatorAppliedToVerb(verb,
                                               conjugations,
-                                              conjugationRule,
-                                              ref conjData))
+                                              conjugationRule))
                 {
                     var verbConjugationRule = context.CreateVerbConjugationRule(verb,
                                                                                 conjugationRule,
@@ -113,7 +110,7 @@ namespace NotaConjugator
                     context.AddItem<VerbsConjugationRule>(verbConjugationRule);
 
                     if (ignorePersonsIds.Count == tense.PersonsCount ||
-                        IsVerbRegular(verb, tense, conjugations, ref conjData))
+                        IsVerbRegular(verb, tense, conjugations))
                     {
                         break;
                     }
@@ -125,8 +122,7 @@ namespace NotaConjugator
 
         private bool IsConjugatorAppliedToVerb(Verb verb,
                                                List<string> conjugations,
-                                               ConjugationRule conjugationRule,
-                                               ref string conjData)
+                                               ConjugationRule conjugationRule)
         {
             List<ConjugationRulesInstruction> instructions = null;
             try
@@ -147,19 +143,17 @@ namespace NotaConjugator
                                                           conjugations,
                                                           instructions,
                                                           conjugationRule,
-                                                          persons,
-                                                          ref conjData);
+                                                          persons);
         }
 
         private bool IsConjugationRuleAppliedToConjugations(Verb verb,
                                                             List<string> conjugations,
                                                             List<ConjugationRulesInstruction> instructions,
                                                             ConjugationRule conjugationRule,
-                                                            List<Person> persons,
-                                                            ref string conjData)
+                                                            List<Person> persons)
         {
             List<int> affectedPersonsIds = new List<int>();
-            conjData = null;
+            conjugationString = null;
             string verbPattern = null;
             var conjugationRuleType = conjugationRule.Type;
 
@@ -190,10 +184,21 @@ namespace NotaConjugator
             }
 
             if (conjugationRuleType != ConjugationRuleType.Independent)
-                conjData = verbPattern;
+                conjugationString = verbPattern;
 
             Console.WriteLine($"{verb.Infinative} Applies { conjugationRule.Name}");
+
             ignorePersonsIds.AddRange(affectedPersonsIds);
+
+            var conjugationMatches = affectedPersonsIds
+                                     .Select(id => context.CreateConjugationMatch(verb.Id, 
+                                                                                  conjugationRule.Id,
+                                                                                  id,
+                                                                                  conjugationString))
+                                     .ToList();
+
+            if (context.AddItems<ConjugationMatch>(conjugationMatches) == null)
+                throw new Exception("Failed To Add ConjugationMatch");
 
             return true;
         }
