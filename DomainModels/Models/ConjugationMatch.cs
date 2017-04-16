@@ -44,7 +44,9 @@ namespace NotaDAL.Models
 
         public bool DbCompare(ConjugationMatch other)
         {
-            return this.
+            return (this.VerbId == other.VerbId) &&
+                   (this.ConjugationRuleId == other.ConjugationRuleId) &&
+                   (this.PersonId == other.PersonId); 
         }
 
         #endregion
