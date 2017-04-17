@@ -43,7 +43,8 @@ namespace NotaDAL.Context
         public Table<ConjugationRulesInstruction> VerbConjugationInstructions = null;
 
         public Table<VerbsConjugationRule> VerbsConjugationRules = null;
+                
 
-        #endregion        
+        #endregion
     }
 }

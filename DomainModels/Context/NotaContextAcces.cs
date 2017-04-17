@@ -48,6 +48,47 @@ namespace NotaDAL.Context
             return allTenseConjugationRules;
         }
 
+        public List<ConjugationRule> FilterConjugationRulesByPerson(List<ConjugationRule> appliedTenseConjugationRules, Person person)
+        {
+            var unfilteredConjugationRulesIds = appliedTenseConjugationRules.Select(cr => cr.Id);
+            var personsConjugationRules = context.ConjugationRulePersons
+                                             .Where(crp => (unfilteredConjugationRulesIds.Contains(crp.ConjugationRuleId)) &&
+                                                           (crp.PersonId == person.Id))
+                                             .ToList();
+            var filteredConjugationRuleIds = personsConjugationRules.Select(crp => crp.ConjugationRuleId);
+
+            return appliedTenseConjugationRules.Where(cr => filteredConjugationRuleIds.Contains(cr.Id))
+                                               .ToList();
+        }
+
+        public List<ConjugationRule> GetVerbsConjugationRules(Verb verb, Tense tense)
+        {
+            List<VerbsConjugationRule> verbConjugationRules = GetVerbConjugationRules(verb, tense);
+
+            return GetConjugationRulesByVerbConjugationRules(verbConjugationRules);
+        }
+
+        private List<VerbsConjugationRule> GetVerbConjugationRules(Verb verb, Tense tense)
+        {
+            var teneConjugationRules = context.ConjugationRules
+                                                 .Where(cr => cr.TenseId == tense.Id)
+                                                 .ToList();
+            var tenseConjugationRulesIds = teneConjugationRules.Select(cr => cr.Id)
+                                                               .ToList();
+            return context.VerbsConjugationRules
+                          .Where(vcr => (vcr.VerbId == verb.Id) &&
+                                        (tenseConjugationRulesIds.Contains(vcr.ConjugationRuleId)))
+                          .ToList();
+                          
+        }
+
+        private List<ConjugationRule> GetConjugationRulesByVerbConjugationRules(List<VerbsConjugationRule> verbConjugationRules)
+        {
+            var conjugationRulesIds = verbConjugationRules.Select(vcr => vcr.ConjugationRuleId);
+            return context.ConjugationRules.Where(cr => conjugationRulesIds.Contains(cr.Id))
+                                           .ToList();
+        }
+
         public VerbsConjugationRule CreateVerbConjugationRule(Verb verb, ConjugationRule conjugationRule, string conjData)
         {
             return new VerbsConjugationRule

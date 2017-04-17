@@ -21,6 +21,7 @@ namespace NotaDAL.Models
         [Column(CanBeNull = false)]
         public int ConjugationRuleId { get; set; }
 
+        [Column(CanBeNull = true)]
         public string ConjugationData { get; set; }
 
         #endregion
