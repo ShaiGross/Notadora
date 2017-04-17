@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Data.Linq;
 using NotaDAL;
 using NotaDAL.Models;
-using System.Data.Entity;
 using ConjugationsIngestor;
 using NotaConjugator;
 using System.Configuration;
