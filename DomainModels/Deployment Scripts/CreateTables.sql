@@ -1,6 +1,5 @@
-﻿
+﻿CREATE TABLE [dbo].[VerbsConjugationRules] (
 
-CREATE TABLE [dbo].[VerbsConjugationRules] (
     [Id]                INT            IDENTITY (1, 1) NOT NULL,
     [VerbId]            INT            NOT NULL,
     [ConjugationRuleId] INT            NOT NULL,
@@ -14,7 +13,7 @@ CREATE TABLE [dbo].[ConjugationRules] (
     [Name]        NVARCHAR (50)  NOT NULL,
     [Description] NVARCHAR (MAX) NOT NULL,
     [Type]        INT            NOT NULL,
-    [IsRegular]   INT            NOT NULL,
+    [IsRegular]   BIT            NOT NULL,
     [PersonCount] INT            DEFAULT ((-1)) NOT NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [AK_ConjugationRules_name] UNIQUE NONCLUSTERED ([Name] ASC)
@@ -71,10 +70,11 @@ CREATE TABLE [dbo].[ConjugationRulePersons] (
     CONSTRAINT [AK_ConjugationRulePersons_Complex] UNIQUE NONCLUSTERED ([ConjugationRuleId] ASC, [PersonId] ASC)
 );
 
-CREATE TABLE [dbo].[ConjugationMatches]
-(
-	[Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[VerbId] INT NOT NULL,
-	[ConjugationRuleId]  INT NOT NULL,
-	[ConjugationString] NVARCHAR(50) NULL,
+CREATE TABLE [dbo].[ConjugationMatches] (
+    [Id]                INT           IDENTITY (1, 1) NOT NULL,
+    [VerbId]            INT           NOT NULL,
+    [ConjugationRuleId] INT           NOT NULL,
+    [PersonId]          INT           NULL,
+    [ConjugationString] NVARCHAR (50) NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
 );

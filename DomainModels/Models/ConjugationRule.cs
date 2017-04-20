@@ -10,6 +10,7 @@ namespace NotaDAL.Models
     public enum ConjugationRuleType
     {
         Independent,
+        OffsetDepndent,
         NewStemDependent,
         NewInfDependent,
         SpecialConjugation
@@ -35,7 +36,7 @@ namespace NotaDAL.Models
         [Column(DbType = "INT")]
         public ConjugationRuleType Type { get; set; }
 
-        [Column(DbType = "INT", CanBeNull = false)]
+        [Column(DbType = "BIT", CanBeNull = false)]
         public bool IsRegular { get; set; }
 
         [Column(CanBeNull = false)]

@@ -9,19 +9,7 @@ namespace NotaDAL.Models
 {
     [Table(Name = "ConjugationMatches")]
     public class ConjugationMatch : NotaDbObject<ConjugationMatch>
-    {
-        #region Ctors
-
-        public ConjugationMatch(int verbId, int conjugationRuleId, int personId, string conjugationString)
-        {
-            VerbId = verbId;
-            ConjugationRuleId = conjugationRuleId;
-            PersonId = personId;
-            ConjugationString = conjugationString;
-        }
-
-        #endregion
-
+    {        
         #region Properties
         [Column(IsDbGenerated = true, IsPrimaryKey = true)]
         public int Id { get; set; }
@@ -32,8 +20,8 @@ namespace NotaDAL.Models
         [Column(CanBeNull = false)]
         public int ConjugationRuleId { get; set; }
 
-        [Column(CanBeNull = false)]
-        public int PersonId { get; set; }
+        [Column(CanBeNull = true)]
+        public int? PersonId { get; set; }
 
         [Column(CanBeNull = true)]
         public string ConjugationString { get; set; }

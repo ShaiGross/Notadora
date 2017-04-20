@@ -56,7 +56,7 @@
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\Tense.cs" />
     <Compile Include="Models\Verb.cs" />
-    <Compile Include="Models\VerbsConjugationRule.cs" />
+    <Compile Include="Models\VerbsConjugationRule_TEMP.cs" />
     <Compile Include="Context\NotaContext.cs" />
     <Compile Include="NotaDbObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -66,9 +66,15 @@ namespace NotaDAL.Models
 
         #endregion
 
+        #region Expresion-Bodied Members
+
+        public int Index => GetIndex();
+
+        #endregion
+
         #region Methods
 
-        public int GetIndex()
+        private int GetIndex()
         {
             if (Order == PersonOrder.None)
                 return 0;

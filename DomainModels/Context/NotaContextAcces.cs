@@ -48,15 +48,15 @@ namespace NotaDAL.Context
             return allTenseConjugationRules;
         }
 
-        public VerbsConjugationRule CreateVerbConjugationRule(Verb verb, ConjugationRule conjugationRule, string conjData)
-        {
-            return new VerbsConjugationRule
-            {
-                VerbId = verb.Id,
-                ConjugationRuleId = conjugationRule.Id,
-                ConjugationData = conjData
-            };
-        }        
+        //public VerbsConjugationRule CreateVerbConjugationRule(Verb verb, ConjugationRule conjugationRule, string conjData)
+        //{
+        //    return new VerbsConjugationRule
+        //    {
+        //        VerbId = verb.Id,
+        //        ConjugationRuleId = conjugationRule.Id,
+        //        ConjugationData = conjData
+        //    };
+        //}        
 
         public List<ConjugationRule> GetTenseIrregularConjugationRules(Tense tense)
         {
@@ -150,9 +150,15 @@ namespace NotaDAL.Context
             return item;
         }
 
-        public ConjugationMatch CreateConjugationMatch(int VerbId, int conjugationRuleId, int personId, string ConjugationString)
+        public ConjugationMatch CreateConjugationMatch(int VerbId, int conjugationRuleId, int? personId, string ConjugationString)
         {
-            return new ConjugationMatch(VerbId, conjugationRuleId, personId, ConjugationString);
+            return new ConjugationMatch
+            {
+                VerbId = VerbId,
+                ConjugationRuleId = conjugationRuleId,
+                PersonId = personId,
+                ConjugationString = ConjugationString
+            };
         }
 
         public List<T> AddItems<T>(List<T> items) where T  : NotaDbObject<T>
