@@ -46,17 +46,7 @@ namespace NotaDAL.Context
             allTenseConjugationRules.Add(tense.RegularConjugationRule);
 
             return allTenseConjugationRules;
-        }
-
-        //public VerbsConjugationRule CreateVerbConjugationRule(Verb verb, ConjugationRule conjugationRule, string conjData)
-        //{
-        //    return new VerbsConjugationRule
-        //    {
-        //        VerbId = verb.Id,
-        //        ConjugationRuleId = conjugationRule.Id,
-        //        ConjugationData = conjData
-        //    };
-        //}        
+        }        
 
         public List<ConjugationRule> GetTenseIrregularConjugationRules(Tense tense)
         {
@@ -73,6 +63,13 @@ namespace NotaDAL.Context
             }
 
             return tense.IrregularConjugationRules;
+        }
+
+        public ConjugationRulesInstruction GetConjugationInstruction(Verb verb, int conjugationRuleId, int personId)
+        {
+            return context.VerbConjugationInstructions.First(vci => vci.ConjugationRuleId == conjugationRuleId &&
+                                                                    vci.VerbType == verb.Type &&
+                                                                    vci.PersonId == personId);
         }
 
         public ConjugationRule GetTenseRegularConjugationRule(Tense tense)
@@ -110,13 +107,16 @@ namespace NotaDAL.Context
         {
             return context.ConjugationMatches
                           .First(cm => cm.VerbId == VerbId &&
-                                       getConjugationRuleByMatch(cm).TenseId == TenseId &&
+                                       getConjugationMatchConjugationRule(cm).TenseId == TenseId &&
                                        (cm.PersonId == PersonId || cm.PersonId == null));
         }
 
-        public ConjugationRule getConjugationRuleByMatch(ConjugationMatch match)
+        public ConjugationRule getConjugationMatchConjugationRule(ConjugationMatch conjugationMatch)
         {
-            return GetItem<ConjugationRule>(match.ConjugationRuleId);
+            if (conjugationMatch.ConjugationRule == null)
+                conjugationMatch.ConjugationRule = GetItem<ConjugationRule>(conjugationMatch.ConjugationRuleId);
+
+            return conjugationMatch.ConjugationRule;
         }
 
         #endregion
@@ -144,6 +144,16 @@ namespace NotaDAL.Context
             return table.Cast<T>()
                         .Select(item => item)
                         .ToList();
+        }
+        
+
+        public List<T> GetItemList<T>(Func<T, bool> predicate)
+        {
+            var table = context.GetTable(typeof(T));
+            var allItems = GetItemList<T>();
+
+            return allItems.Where<T>(predicate)
+                           .ToList();
         }
 
         public T AddItem<T>(T item, bool submit = true) where T : NotaDbObject<T>
