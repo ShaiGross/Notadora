@@ -104,6 +104,21 @@ namespace NotaDAL.Context
             return conjugationRule.Persons;
         }
 
+        public ConjugationMatch getConjugationMatch(int TenseId, 
+                                                    int VerbId, 
+                                                    int PersonId)
+        {
+            return context.ConjugationMatches
+                          .First(cm => cm.VerbId == VerbId &&
+                                       getConjugationRuleByMatch(cm).TenseId == TenseId &&
+                                       (cm.PersonId == PersonId || cm.PersonId == null));
+        }
+
+        public ConjugationRule getConjugationRuleByMatch(ConjugationMatch match)
+        {
+            return GetItem<ConjugationRule>(match.ConjugationRuleId);
+        }
+
         #endregion
 
         #region IDisposable Implementation

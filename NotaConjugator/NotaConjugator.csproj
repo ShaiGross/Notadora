@@ -42,6 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConjugationsClassifier.cs" />
+    <Compile Include="Conjugator.cs" />
+    <Compile Include="Data\ConjugationPackage.cs" />
+    <Compile Include="intvVerbId.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
