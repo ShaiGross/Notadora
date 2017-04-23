@@ -61,14 +61,14 @@ namespace DevelopmentDriver
         private static void RunConjugation(NotaContextAcces context)
         {
             var conjugator = new Conjugator(context);
-            var verbsList = context.GetItemList<Verb>(v => v.Infinative == "ser");
-            var tense = context.GetItemList<Tense>(t => t.Name == "Present").First();
+            var verbsList = context.GetItemList<Verb>(v => v.Infinative == "ir");
+            var tense = context.GetItemList<Tense>(t => t.Name.Contains("Partic")).Last();
 
-            var personId = 8;
+            var person = context.GetItemList<Person>(p => p.SpanishExpression == null).First();
 
             foreach (var verb in verbsList)
             {
-                var conjugatedWord = conjugator.Conjugate(tense.Id, verb.Id, personId);
+                var conjugatedWord = conjugator.ConjugatePerson(tense.Id, verb.Id, person.Id);
             }
         }
 

@@ -9,11 +9,18 @@ namespace NotaDAL.Models
 {
     public enum ConjugationRuleType
     {
-        Independent,
-        OffsetDepndent,
-        NewStemDependent,
-        NewInfDependent,
+        Independent,        
+        NewPatternDependent,        
         SpecialConjugation
+    }
+
+    public enum ConjugationPatternType
+    {
+        None = -1,
+        Stem,
+        InInf,
+        Inf,
+        InStem,        
     }
 
     [Table(Name = "ConjugationRules")]
@@ -42,7 +49,20 @@ namespace NotaDAL.Models
         [Column(CanBeNull = false)]
         public int PersonCount { get; set; }
 
+        [Column(CanBeNull = true)]
+        public int? PatternIndex { get; set; }
+
         internal List<Person> Persons { get; set; }
+
+        #endregion
+
+        #region Expression-Bodied Members
+
+        public ConjugationPatternType PatternType => (!PatternIndex.HasValue) 
+                                                     ? ConjugationPatternType.None
+                                                     : (PatternIndex < 0)
+                                                       ? ConjugationPatternType.InStem
+                                                        : (ConjugationPatternType)PatternIndex;
 
         #endregion
 

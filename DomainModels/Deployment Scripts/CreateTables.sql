@@ -1,4 +1,6 @@
-﻿CREATE TABLE [dbo].[VerbsConjugationRules] (
+﻿
+
+CREATE TABLE [dbo].[VerbsConjugationRules] (
 
     [Id]                INT            IDENTITY (1, 1) NOT NULL,
     [VerbId]            INT            NOT NULL,
@@ -8,18 +10,17 @@
 );
 
 CREATE TABLE [dbo].[ConjugationRules] (
-    [Id]          INT            IDENTITY (1, 1) NOT NULL,
-    [TenseId]     INT            NOT NULL,
-    [Name]        NVARCHAR (50)  NOT NULL,
-    [Description] NVARCHAR (MAX) NOT NULL,
-    [Type]        INT            NOT NULL,
-    [IsRegular]   BIT            NOT NULL,
-    [PersonCount] INT            DEFAULT ((-1)) NOT NULL,
+    [Id]           INT            IDENTITY (1, 1) NOT NULL,
+    [TenseId]      INT            NOT NULL,
+    [Name]         NVARCHAR (50)  NOT NULL,
+    [Description]  NVARCHAR (MAX) NOT NULL,
+    [Type]         INT            NOT NULL,
+    [IsRegular]    BIT            NOT NULL,
+    [PersonCount]  INT            DEFAULT ((-1)) NOT NULL,
+    [PatternIndex] INT            NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [AK_ConjugationRules_name] UNIQUE NONCLUSTERED ([Name] ASC)
 );
-
-
 
 CREATE TABLE [dbo].[Verbs] (
     [Id]                INT            IDENTITY (1, 1) NOT NULL,
@@ -77,4 +78,11 @@ CREATE TABLE [dbo].[ConjugationMatches] (
     [PersonId]          INT           NULL,
     [ConjugationString] NVARCHAR (50) NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+CREATE TABLE [dbo].[TensePersons]
+(
+	[Id] INT IDENTITY (1, 1) NOT NULL,
+	[TenseId] INT NOT NULL,
+	[PersonId] INT NOT NULL
 );

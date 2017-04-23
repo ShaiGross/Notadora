@@ -44,6 +44,8 @@ namespace NotaDAL.Context
 
         public Table<ConjugationMatch> ConjugationMatches = null;
 
+        public Table<TensePerson> TensePersons = null;
+
         #endregion        
     }
 }

@@ -29,36 +29,103 @@ namespace NotaConjugator
 
         #region Methods
 
-        public string Conjugate(int tenseId, int verbId, int personId)
+        public Conjugation ConjugatePerson(int tenseId, int verbId, int personId)
         {
             bool conjugaitonPackageSuccess = buildConjugationPackage(tenseId, verbId, personId);
 
             if (!conjugaitonPackageSuccess)
-                return null;            
+                return null;
 
-            return Conjugate();
+            var conjugationString = Conjugate();
+
+            return new Conjugation
+            {
+                TenseId = tenseId,
+                VerbId = verbId,
+                PersonId = personId,
+                conjugationString = conjugationString
+            };
+        }
+
+        public List<Conjugation> ConjugateTense(int tenseId, int verbId)
+        {            
+            var tenseConjugaitons = new List<Conjugation>();
+            var tensePersonIds = context.GetAllTensePersons(tenseId).Select(p => p.Id);
+
+            foreach (var personId in tensePersonIds)
+            {
+                bool conjugaitonPackageSuccess = buildConjugationPackage(tenseId, verbId, personId);
+
+                if (!conjugaitonPackageSuccess)
+                    return null;
+
+                var conjugationString = Conjugate();
+
+                var conjugation = new Conjugation
+                {
+                    TenseId = tenseId,
+                    VerbId = verbId,
+                    PersonId = personId,
+                    conjugationString = conjugationString
+                };
+
+                tenseConjugaitons.Add(conjugation);
+            }
+
+            return tenseConjugaitons;
+        }
+
+        public List<Conjugation> ConjugateVerb(int verbId)
+        {
+            var tenseConjugaitons = new List<Conjugation>();
+            var tenseIds = context.GetItemList<Tense>().Select(t => t.Id);
+
+            foreach (var tenseId in tenseIds)
+            {
+                var tensePersonIds = context.GetAllTensePersons(tenseId).Select(p => p.Id);
+
+                foreach (var personId in tensePersonIds)
+                {
+                    bool conjugaitonPackageSuccess = buildConjugationPackage(tenseId, verbId, personId);
+
+                    if (!conjugaitonPackageSuccess)
+                        return null;
+
+                    var conjugationString = Conjugate();
+
+                    var conjugation = new Conjugation
+                    {
+                        TenseId = tenseId,
+                        VerbId = verbId,
+                        PersonId = personId,
+                        conjugationString = conjugationString
+                    };
+
+                    tenseConjugaitons.Add(conjugation);
+                }                
+            }
+
+            return tenseConjugaitons;
         }
 
         private string Conjugate()
         {
             var conjugationRuleType = conjugationPackage.ConjugationRule.Type;
             var suffix = conjugationPackage.Instruction.Suffix;
-            var conjugationString = conjugationPackage.ConjugationMatch.ConjugationString;
+            var conjugationString = conjugationPackage.ConjugationMatch.ConjugationString ?? string.Empty;
 
             switch (conjugationRuleType)
             {
                 case ConjugationRuleType.Independent:
-                    throw new NotImplementedException("seperate to conjugationClassificationType and conjugationType");
-                case ConjugationRuleType.OffsetDepndent:
-                    throw new NotImplementedException("add offset to db");
-                case ConjugationRuleType.NewStemDependent:                                        
-                case ConjugationRuleType.NewInfDependent:
+                    var pattern = ConjugationUtils.getConjugationMatchPattern(conjugationPackage);
+                    return pattern + suffix;
+                case ConjugationRuleType.NewPatternDependent:
                     return conjugationString + suffix;
                 case ConjugationRuleType.SpecialConjugation:
                     return conjugationString;
                 default:
-                    throw new Exception("Unexpected enum");
-            }
+                    throw new Exception("Unexpeted ConjugationRule type");
+            }            
         }
 
         private bool buildConjugationPackage(int tenseId, int verbId, int personId)
@@ -92,12 +159,6 @@ namespace NotaConjugator
             };
 
             return true;
-        }
-
-        private string Conjugate(ConjugationMatch conjugationMatch)
-        {
-            return null;
-            //var conjugationRule = context.GetConj
         }
 
         #endregion

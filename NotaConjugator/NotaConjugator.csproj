@@ -42,7 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConjugationsClassifier.cs" />
+    <Compile Include="ConjugationUtils.cs" />
     <Compile Include="Conjugator.cs" />
+    <Compile Include="Data\Conjugation.cs" />
     <Compile Include="Data\ConjugationPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

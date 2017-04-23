@@ -46,7 +46,16 @@ namespace NotaDAL.Context
             allTenseConjugationRules.Add(tense.RegularConjugationRule);
 
             return allTenseConjugationRules;
-        }        
+        }
+
+        public List<Person> GetAllTensePersons(int tenseId)
+        {
+            var tensePersonIds = context.TensePersons.Where(tp => tp.TenseId == tenseId)
+                                                     .Select(tp => tp.PersonId);
+
+            return context.Persons.Where(p => tensePersonIds.Contains(p.Id))
+                                  .ToList();
+        }                           
 
         public List<ConjugationRule> GetTenseIrregularConjugationRules(Tense tense)
         {
@@ -56,10 +65,10 @@ namespace NotaDAL.Context
                 try
                 {
                     tense.IrregularConjugationRules = context.ConjugationRules.Where(cr => (cr.TenseId == tense.Id) &&
-                                                                                   (!cr.IsRegular))
+                                                                                           (!cr.IsRegular))
                                                                       .ToList();
                 }
-                catch { }
+                catch (Exception e) { }
             }
 
             return tense.IrregularConjugationRules;
@@ -90,7 +99,7 @@ namespace NotaDAL.Context
                 !conjugationRule.Persons.Any())
             {
                 try
-                {                
+                {
                     var personIds = context.ConjugationRulePersons.Where(crp => crp.ConjugationRuleId == conjugationRule.Id).
                                                                  Select(crp => crp.PersonId).ToList();
                     conjugationRule.Persons = context.Persons.Where(p => personIds.Contains(p.Id)).ToList();
@@ -101,14 +110,22 @@ namespace NotaDAL.Context
             return conjugationRule.Persons;
         }
 
-        public ConjugationMatch getConjugationMatch(int TenseId, 
-                                                    int VerbId, 
-                                                    int PersonId)
+        public ConjugationMatch getConjugationMatch(int tenseId,
+                                                    int verbId,
+                                                    int personId)
         {
-            return context.ConjugationMatches
-                          .First(cm => cm.VerbId == VerbId &&
-                                       getConjugationMatchConjugationRule(cm).TenseId == TenseId &&
-                                       (cm.PersonId == PersonId || cm.PersonId == null));
+            var conjMatches = context.ConjugationMatches.ToList();
+
+            var query = from match
+                        in context.ConjugationMatches
+                        join rule in context.ConjugationRules
+                        on match.ConjugationRuleId equals rule.Id
+                        where rule.TenseId == tenseId &&
+                              match.VerbId == verbId &&
+                              (match.PersonId == personId || match.PersonId == null)
+                        select match;
+
+            return query.First();
         }
 
         public ConjugationRule getConjugationMatchConjugationRule(ConjugationMatch conjugationMatch)
@@ -145,7 +162,7 @@ namespace NotaDAL.Context
                         .Select(item => item)
                         .ToList();
         }
-        
+
 
         public List<T> GetItemList<T>(Func<T, bool> predicate)
         {
@@ -186,7 +203,7 @@ namespace NotaDAL.Context
             };
         }
 
-        public List<T> AddItems<T>(List<T> items) where T  : NotaDbObject<T>
+        public List<T> AddItems<T>(List<T> items) where T : NotaDbObject<T>
         {
             var insertedItems = items.Select(item => AddItem<T>(item, false)).ToList();
             context.SubmitChanges();

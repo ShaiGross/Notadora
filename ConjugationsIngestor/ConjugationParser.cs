@@ -121,9 +121,10 @@ namespace ConjugationsIngestor
             html = html.Remove(0, gerundIndex + gerundElement.Length);
 
             var presentParticipleLeft = html.IndexOf("<span>") + "<span>&nbsp;".Length;
+            html = html.Remove(0, presentParticipleLeft);
             var presentParticipleRight = html.IndexOf("</span>");
 
-            var presentParticiple = html.Substring(presentParticipleLeft, presentParticipleRight - presentParticipleLeft);
+            var presentParticiple = html.Substring(0, presentParticipleRight);
 
             if (presentParticiple.Contains(','))
                 presentParticiple = presentParticiple.Remove(presentParticiple.IndexOf(','));

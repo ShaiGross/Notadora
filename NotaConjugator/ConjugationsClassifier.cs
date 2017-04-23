@@ -127,7 +127,7 @@ namespace NotaConjugator
         {
             List<int> affectedPersonsIds = new List<int>();
             conjugationString = null;
-            string verbPattern = null;
+            string inferredPattern = null;
             var conjugationRuleType = conjugationRule.Type;
 
             if ((persons == null) || (!persons.Any()) ||
@@ -148,19 +148,16 @@ namespace NotaConjugator
 
                 var suffixIndex = conjugation.DiacriticsLastIndexOf(suffix);
 
-                var newPattern = (conjugationRuleType == ConjugationRuleType.SpecialConjugation) ? conjugation : conjugation.Remove(suffixIndex);
+                var newPattern = getInferredPattern(conjugation, suffixIndex);
 
-                if (!IsParrtnValid(verb, conjugationRuleType, newPattern, ref verbPattern))
+                if (!IsParrtnValid(newPattern, ref inferredPattern))
                     return false;
 
                 affectedPersonsIds.Add(person.Id);
             }
 
-            if ((conjugationRuleType == ConjugationRuleType.NewStemDependent) ||
-                (conjugationRuleType == ConjugationRuleType.NewInfDependent))
-            {
-                conjugationString = verbPattern;
-            }            
+            if (conjugationRule.Type != ConjugationRuleType.Independent)          
+                conjugationString = inferredPattern;
 
             if (affectedPersonsIds.Count == tense.PersonsCount)
             {
@@ -182,6 +179,19 @@ namespace NotaConjugator
             Console.WriteLine($"{verb.Infinative} Applies { conjugationRule.Name}");                
 
             return true;
+        }
+
+        private string getInferredPattern(string conjugation, int suffixIndex)
+        {
+            //(conjugationRuleType == ConjugationRuleType.SpecialConjugation) ? conjugation : conjugation.Remove(suffixIndex);
+            if (conjugationRule.Type == ConjugationRuleType.SpecialConjugation)
+            {
+                return conjugation;
+            }
+            else
+            {
+                return conjugation.Remove(suffixIndex);
+            }
         }
 
         private List<ConjugationMatch> AddPersonsConjugationMatch(Verb verb,
@@ -214,28 +224,26 @@ namespace NotaConjugator
             return context.AddItems<ConjugationMatch>(conjugationMatches);
         }
 
-        private bool IsParrtnValid(Verb verb,
-                                   ConjugationRuleType conjugationRuleType,
-                                   string newPattern,
+        private bool IsParrtnValid(string newPattern,
                                    ref string oldPattern)
         {
-            if (conjugationRuleType == ConjugationRuleType.SpecialConjugation)
+            
+            if (conjugationRule.PatternType == ConjugationPatternType.None)
                 return true;
             else if (string.IsNullOrEmpty(oldPattern))
                 oldPattern = newPattern;
             else if (oldPattern != newPattern)
                 return false;
 
-            switch (conjugationRuleType)
+            var expectedPattern = ConjugationUtils.getConjugationMatchPattern(verb, conjugationRule);
+            var independentPattern = (newPattern == expectedPattern);
+
+            switch (conjugationRule.Type)
             {
                 case ConjugationRuleType.Independent:
-                    return newPattern == verb.Stem || newPattern == verb.Infinative;
-                case ConjugationRuleType.NewStemDependent:
-                    return (newPattern != verb.Stem);
-                case ConjugationRuleType.NewInfDependent:
-                    return (newPattern != verb.Infinative);
-                case ConjugationRuleType.OffsetDepndent:
-                    return true;
+                    return independentPattern;
+                case ConjugationRuleType.NewPatternDependent:
+                    return !independentPattern;                                    
                 default:
                     throw new Exception("Unexpeted Verb Type");
             }
