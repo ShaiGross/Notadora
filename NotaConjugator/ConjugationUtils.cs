@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 namespace NotaConjugator
 {
     public static class ConjugationUtils
-    {       
-        // TODO: move these functinos
+    {
         public static string getConjugationMatchPattern(Verb verb, ConjugationRule conjugationRule)
         {
             var stemLength = verb.Stem.Length;
