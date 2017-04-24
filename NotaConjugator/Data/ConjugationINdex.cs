@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NotaConjugator.Data
 {
-    public class Conjugation
+    public class ConjugationIndex
     {
         public int TenseId { get; set; }
         public int VerbId { get; set; }

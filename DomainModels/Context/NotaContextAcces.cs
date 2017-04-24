@@ -48,6 +48,18 @@ namespace NotaDAL.Context
             return allTenseConjugationRules;
         }
 
+        public List<int> GetVerbConjugationRulesIds(Verb dbVerb)
+        {
+            var query = from rule
+                        in context.ConjugationRules
+                        join match in context.ConjugationMatches
+                        on rule.Id equals match.ConjugationRuleId
+                        where match.VerbId == dbVerb.Id
+                        select rule.Id;
+
+            return query.ToList();
+        }
+
         public List<Person> GetAllTensePersons(int tenseId)
         {
             var tensePersonIds = context.TensePersons.Where(tp => tp.TenseId == tenseId)
@@ -125,7 +137,10 @@ namespace NotaDAL.Context
                               (match.PersonId == personId || match.PersonId == null)
                         select match;
 
-            return query.First();
+            if (!query.Any())
+                return null;
+
+            return query.FirstOrDefault();
         }
 
         public ConjugationRule getConjugationMatchConjugationRule(ConjugationMatch conjugationMatch)

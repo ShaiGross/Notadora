@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NotaDAL.Models
 {
-    [Table(Name = "Tenses")]
+    [Table(Name = "TensePersons")]
     public class TensePerson : NotaDbObject<TensePerson>
     {
         #region Properties

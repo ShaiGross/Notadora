@@ -15,7 +15,7 @@ namespace NotaDAL.Context
     {
         #region Consts
 
-        private const string CONN_STR_APP_KEY = "ConnStr";
+        private const string CONN_STR_APP_KEY = "CONN_STR";
 
         #endregion
 

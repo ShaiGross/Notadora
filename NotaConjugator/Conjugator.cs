@@ -29,7 +29,7 @@ namespace NotaConjugator
 
         #region Methods
 
-        public Conjugation ConjugatePerson(int tenseId, int verbId, int personId)
+        public ConjugationIndex ConjugatePerson(int tenseId, int verbId, int personId)
         {
             bool conjugaitonPackageSuccess = buildConjugationPackage(tenseId, verbId, personId);
 
@@ -38,7 +38,7 @@ namespace NotaConjugator
 
             var conjugationString = Conjugate();
 
-            return new Conjugation
+            return new ConjugationIndex
             {
                 TenseId = tenseId,
                 VerbId = verbId,
@@ -47,9 +47,9 @@ namespace NotaConjugator
             };
         }
 
-        public List<Conjugation> ConjugateTense(int tenseId, int verbId)
+        public List<ConjugationIndex> ConjugateTense(int tenseId, int verbId)
         {            
-            var tenseConjugaitons = new List<Conjugation>();
+            var tenseConjugaitonIndexes = new List<ConjugationIndex>();
             var tensePersonIds = context.GetAllTensePersons(tenseId).Select(p => p.Id);
 
             foreach (var personId in tensePersonIds)
@@ -57,11 +57,11 @@ namespace NotaConjugator
                 bool conjugaitonPackageSuccess = buildConjugationPackage(tenseId, verbId, personId);
 
                 if (!conjugaitonPackageSuccess)
-                    return null;
+                    continue;
 
                 var conjugationString = Conjugate();
 
-                var conjugation = new Conjugation
+                var conjugation = new ConjugationIndex
                 {
                     TenseId = tenseId,
                     VerbId = verbId,
@@ -69,15 +69,15 @@ namespace NotaConjugator
                     conjugationString = conjugationString
                 };
 
-                tenseConjugaitons.Add(conjugation);
+                tenseConjugaitonIndexes.Add(conjugation);
             }
 
-            return tenseConjugaitons;
+            return tenseConjugaitonIndexes;
         }
 
-        public List<Conjugation> ConjugateVerb(int verbId)
+        public List<ConjugationIndex> ConjugateVerb(int verbId)
         {
-            var tenseConjugaitons = new List<Conjugation>();
+            var tenseConjugaitonIndexes = new List<ConjugationIndex>();
             var tenseIds = context.GetItemList<Tense>().Select(t => t.Id);
 
             foreach (var tenseId in tenseIds)
@@ -89,11 +89,11 @@ namespace NotaConjugator
                     bool conjugaitonPackageSuccess = buildConjugationPackage(tenseId, verbId, personId);
 
                     if (!conjugaitonPackageSuccess)
-                        return null;
+                        continue;
 
                     var conjugationString = Conjugate();
 
-                    var conjugation = new Conjugation
+                    var conjugation = new ConjugationIndex
                     {
                         TenseId = tenseId,
                         VerbId = verbId,
@@ -101,11 +101,11 @@ namespace NotaConjugator
                         conjugationString = conjugationString
                     };
 
-                    tenseConjugaitons.Add(conjugation);
+                    tenseConjugaitonIndexes.Add(conjugation);
                 }                
             }
 
-            return tenseConjugaitons;
+            return tenseConjugaitonIndexes;
         }
 
         private string Conjugate()
