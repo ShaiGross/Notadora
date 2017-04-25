@@ -40,12 +40,12 @@ namespace NotaDAL.Models
         [Column(CanBeNull = false)]
         public int TenseId { get; set; }
 
-        [Column(DbType = "INT")]
-        public ConjugationRuleType Type { get; set; }
-
         [Column(DbType = "BIT", CanBeNull = false)]
         public bool IsRegular { get; set; }
 
+        [Column(DbType = "INT")]
+        public ConjugationRuleType Type { get; set; }
+        
         [Column(CanBeNull = false)]
         public int PersonCount { get; set; }
 

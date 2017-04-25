@@ -42,11 +42,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConjugationRuleInfo.cs" />
-    <Compile Include="PeronInfo.cs" />
+    <Compile Include="PersonInfo.cs" />
     <Compile Include="TenseInfo.cs" />
     <Compile Include="VerbInfo.cs" />
     <Compile Include="VerbConjugations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DomainModels\NotaDAL.csproj">
+      <Project>{1FF30086-A296-4061-A185-187A1C22585F}</Project>
+      <Name>NotaDAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

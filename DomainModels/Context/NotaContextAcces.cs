@@ -86,6 +86,18 @@ namespace NotaDAL.Context
             return tense.IrregularConjugationRules;
         }
 
+        public List<int> GetConjugationRuleVerbsIds(ConjugationRule conjugationRule)
+        {
+            var query = from verb
+                        in context.Verbs
+                        join match in context.ConjugationMatches
+                        on verb.Id equals match.VerbId
+                        where match.ConjugationRuleId == conjugationRule.Id
+                        select verb.Id;
+
+            return query.ToList();
+        }
+
         public ConjugationRulesInstruction GetConjugationInstruction(Verb verb, int conjugationRuleId, int personId)
         {
             return context.VerbConjugationInstructions.First(vci => vci.ConjugationRuleId == conjugationRuleId &&

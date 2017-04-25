@@ -47,10 +47,10 @@ namespace NotaDAL.Models
         public int Id { get; set; }
 
         [Column(CanBeNull = false)]
-        public string SpanishExpression { get; set; }
+        public string Description { get; set; }
 
         [Column(CanBeNull = false)]
-        public string Description { get; set; }
+        public string SpanishExpression { get; set; }
 
         [Column(DbType = "INT")]
         public PersonPlurality Plurality { get; set; }

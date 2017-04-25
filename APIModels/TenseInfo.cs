@@ -16,13 +16,16 @@ namespace APIModels
         private int id;
 
         [DataMember]
+        private string name;
+
+        [DataMember]
         private string description;
 
         [DataMember]
         private int rugularConjugationRuleId;
 
         [DataMember]
-        private List<PeronInfo> persons;
+        private List<int> personsIds;
 
         [DataMember]
         private List<int> irregularConjugationRulesIds;
@@ -32,16 +35,18 @@ namespace APIModels
         #region Ctor
 
         public TenseInfo(int id,
+                         string name,
                          string desc,
                          int regularConjRuleId,
                          List<int> irregularConjRulesIds,
-                         List<PeronInfo> persons)
+                         List<int> personsIds)
         {
             this.id = id;
+            this.name = name;
             this.description = desc;
             this.rugularConjugationRuleId = regularConjRuleId;
             this.irregularConjugationRulesIds = irregularConjRulesIds;
-            this.persons = persons;            
+            this.personsIds = personsIds;            
         }
 
         #endregion
