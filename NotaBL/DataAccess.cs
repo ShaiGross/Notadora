@@ -15,41 +15,60 @@ namespace NotaBL
     {
         #region Methods
 
-        public static Dictionary<int, VerbInfo> GetVerbs()
+        public static List<VerbInfo> GetVerbs(bool conjugate = false)
         {
-            var verbs = new Dictionary<int, VerbInfo>();
+            var verbs = new List<VerbInfo>();
+            VerbInfo verb = null;
+
             using (var context = new NotaContextAcces())
             {
                 var dbVerbs = context.GetItemList<Verb>();
-                var conjugator = new Conjugator(context);
 
                 foreach (var dbVerb in dbVerbs)
                 {
-                    var conjugationIndexes = conjugator.ConjugateVerb(dbVerb.Id);
-                    var verbConjugations = CastConjugationIndexes(dbVerb.Id, conjugationIndexes);
-                    var verbConjugationRulesIds = context.GetVerbConjugationRulesIds(dbVerb);
+                    if (!conjugate)
+                        verb = new VerbInfo(dbVerb.Id, dbVerb.Description, dbVerb.Infinative, dbVerb.EnglishInfinative);
+                    else
+                        verb = createVerbWithConjugations(dbVerb, context);
 
-                    var verb = new VerbInfo(dbVerb.Id,
-                                            dbVerb.Description,
-                                            dbVerb.Infinative,
-                                            dbVerb.EnglishInfinative,
-                                            verbConjugations,
-                                            verbConjugationRulesIds);
-
-                    verbs.Add(dbVerb.Id, verb);                    
+                    verbs.Add(verb);
                 }
             }
 
             return verbs;
         }
 
-        public static Dictionary<int, ConjugationRuleInfo> GetConjugationRules()
+        private static VerbInfo createVerbWithConjugations(Verb dbVerb, NotaContextAcces context)
         {
-            var conjugationRules = new Dictionary<int, ConjugationRuleInfo>();
+            var conjugator = new Conjugator(context);
+            var conjugationIndexes = conjugator.ConjugateVerb(dbVerb.Id, true);
+            var verbConjugations = CastAndSortConjugationIndexes(dbVerb.Id, conjugationIndexes);
+            var verbConjugationRulesIds = context.GetVerbConjugationRulesIds(dbVerb);
+
+            return new VerbInfo(dbVerb.Id,
+                                dbVerb.Description,
+                                dbVerb.Infinative,
+                                dbVerb.EnglishInfinative,
+                                verbConjugations,
+                                verbConjugationRulesIds);
+        }
+
+        public static VerbInfo GetVerbById(int verbId)
+        {
+            using (var context = new NotaContextAcces())
+            {
+                var dbVerb = context.GetItem<Verb>(verbId);
+                return createVerbWithConjugations(dbVerb, context);
+            }
+        }
+
+        public static List<ConjugationRuleInfo> GetConjugationRules()
+        {
+            var conjugationRules = new List<ConjugationRuleInfo>();
 
             using (var context = new NotaContextAcces())
             {
-                var dbConjugationRules = context.GetItemList<ConjugationRule>();                
+                var dbConjugationRules = context.GetItemList<ConjugationRule>();
 
                 foreach (var dbConjugationRule in dbConjugationRules)
                 {
@@ -69,7 +88,7 @@ namespace NotaBL
                                                                   conjugationRulePersonsIds,
                                                                   conjugationRulesVerbsIds);
 
-                    conjugationRules.Add(dbConjugationRule.Id, conjugationRule);                    
+                    conjugationRules.Add(conjugationRule);
                 }
             }
 
@@ -82,11 +101,11 @@ namespace NotaBL
 
             using (var context = new NotaContextAcces())
             {
-                var dbPersons = context.GetItemList<Person>();                
+                var dbPersons = context.GetItemList<Person>();
 
                 foreach (var dbPerson in dbPersons)
                 {
-                    
+
                     var person = new PersonInfo(dbPerson.Id,
                                               dbPerson.Description,
                                               dbPerson.SpanishExpression,
@@ -101,12 +120,12 @@ namespace NotaBL
             return persons;
         }
 
-        public static Dictionary<int, TenseInfo> GetTenses()
+        public static List<TenseInfo> GetTenses()
         {
-            var tenses = new Dictionary<int, TenseInfo>();
+            var tenses = new List<TenseInfo>();
             using (var context = new NotaContextAcces())
             {
-                var dbTenses = context.GetItemList<Tense>();
+                var dbTenses = context.GetItemList<Tense>(t => t.Enabled);
                 var conjugator = new Conjugator(context);
 
                 foreach (var dbTense in dbTenses)
@@ -117,7 +136,7 @@ namespace NotaBL
 
                     var tensePersonsIds = context.GetAllTensePersons(dbTense.Id)
                                                  .Select(p => p.Id)
-                                                 .ToList();                    
+                                                 .ToList();
 
                     var tense = new TenseInfo(dbTense.Id,
                                               dbTense.Name,
@@ -125,7 +144,7 @@ namespace NotaBL
                                               dbTense.RugularConjugationRuleId,
                                               irregularConjugationRulesIds,
                                               tensePersonsIds);
-                    tenses.Add(dbTense.Id, tense);                    
+                    tenses.Add(tense);
                 }
             }
 
@@ -136,9 +155,10 @@ namespace NotaBL
 
         #region Casting Methods
 
-        private static List<VerbConjugations> CastConjugationIndexes(int verbId, List<ConjugationIndex> conjugationIndexes)
+        private static List<VerbConjugations> CastAndSortConjugationIndexes(int verbId, List<ConjugationIndex> conjugationIndexes)
         {
             var verbConjugations = new List<VerbConjugations>(conjugationIndexes.Count);
+            conjugationIndexes = conjugationIndexes.OrderBy(ci => ci.TenseId).ToList();
 
             foreach (var conjugationIndex in conjugationIndexes)
             {
@@ -146,8 +166,8 @@ namespace NotaBL
                 var tenseId = conjugationIndex.TenseId;
                 var conjugation = conjugationIndex.conjugationString;
 
-                var verbConjugation = new VerbConjugations(personId,
-                                                           tenseId,
+                var verbConjugation = new VerbConjugations(tenseId, 
+                                                           personId,
                                                            conjugation);
                 verbConjugations.Add(verbConjugation);
             }

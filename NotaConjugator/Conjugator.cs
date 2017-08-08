@@ -75,12 +75,18 @@ namespace NotaConjugator
             return tenseConjugaitonIndexes;
         }
 
-        public List<ConjugationIndex> ConjugateVerb(int verbId)
+        public List<ConjugationIndex> ConjugateVerb(int verbId, 
+                                                    bool enabledTensesOnly = false)
         {
             var tenseConjugaitonIndexes = new List<ConjugationIndex>();
-            var tenseIds = context.GetItemList<Tense>().Select(t => t.Id);
+            var tenses = context.GetItemList<Tense>();
 
-            foreach (var tenseId in tenseIds)
+            if (enabledTensesOnly)
+                tenses = tenses.Where(t => t.Enabled).ToList();
+
+            var tensesIds = tenses.Select(t => t.Id);
+
+            foreach (var tenseId in tensesIds)
             {
                 var tensePersonIds = context.GetAllTensePersons(tenseId).Select(p => p.Id);
 

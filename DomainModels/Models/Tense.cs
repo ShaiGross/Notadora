@@ -42,6 +42,9 @@ namespace NotaDAL.Models
         [Column(CanBeNull = true)]
         public int PersonsCount { get; set; }
 
+        [Column(CanBeNull = false, DbType = "BIT")]
+        public bool Enabled { get; set; }
+
         public List<ConjugationRule> IrregularConjugationRules { get; set; }
 
         public ConjugationRule RegularConjugationRule { get; set; }

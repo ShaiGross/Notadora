@@ -26,7 +26,7 @@ namespace DevelopmentDriver
         {
             using (var context = new NotaContextAcces())
             {
-                //RunIngestionAndClassification(context);
+                RunIngestionAndClassification(context);
                 RunConjugation(context);
             }
         }

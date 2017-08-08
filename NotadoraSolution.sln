@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotaDAL", "DomainModels\Not
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConjugationsIngestor", "ConjugationsIngestor\ConjugationsIngestor.csproj", "{4667E858-21FE-413B-BC1C-9DFCD945EEDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevelopmentDriver", "DevelopmentDriver\DevelopmentDriver.csproj", "{E8E6CA2E-F754-4D7F-849D-ECC1245B157F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotaConjugator", "NotaConjugator\NotaConjugator.csproj", "{E9A02DB3-F2F7-4AC4-A83C-B41B7B22A23C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringUtils", "StringUtils\StringUtils.csproj", "{0E086D7A-70B6-4B6A-A542-84E2C2F2B7BC}"
@@ -18,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotaBL", "NotaBL\NotaBL.csproj", "{3DA81DF8-4420-49F7-9BBD-7B41406A1CCF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIModels", "APIModels\APIModels.csproj", "{918A7CCB-2D7F-4097-B5B5-F683E286CB9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevelopmentDriver", "DevelopmentDriver\DevelopmentDriver.csproj", "{E8E6CA2E-F754-4D7F-849D-ECC1245B157F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +33,6 @@ Global
 		{4667E858-21FE-413B-BC1C-9DFCD945EEDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4667E858-21FE-413B-BC1C-9DFCD945EEDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4667E858-21FE-413B-BC1C-9DFCD945EEDF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E8E6CA2E-F754-4D7F-849D-ECC1245B157F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E8E6CA2E-F754-4D7F-849D-ECC1245B157F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E8E6CA2E-F754-4D7F-849D-ECC1245B157F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E8E6CA2E-F754-4D7F-849D-ECC1245B157F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E9A02DB3-F2F7-4AC4-A83C-B41B7B22A23C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E9A02DB3-F2F7-4AC4-A83C-B41B7B22A23C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9A02DB3-F2F7-4AC4-A83C-B41B7B22A23C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +53,10 @@ Global
 		{918A7CCB-2D7F-4097-B5B5-F683E286CB9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{918A7CCB-2D7F-4097-B5B5-F683E286CB9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{918A7CCB-2D7F-4097-B5B5-F683E286CB9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8E6CA2E-F754-4D7F-849D-ECC1245B157F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8E6CA2E-F754-4D7F-849D-ECC1245B157F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8E6CA2E-F754-4D7F-849D-ECC1245B157F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8E6CA2E-F754-4D7F-849D-ECC1245B157F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

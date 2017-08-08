@@ -190,7 +190,6 @@ namespace NotaDAL.Context
                         .ToList();
         }
 
-
         public List<T> GetItemList<T>(Func<T, bool> predicate)
         {
             var table = context.GetTable(typeof(T));

@@ -29,6 +29,12 @@ namespace APIModels
         [DataMember]
         private List<int> conjugationRulesIds;
 
+        [DataMember]
+        private string pastParticiple;
+
+        [DataMember]
+        private string presentParticiple;
+
         #endregion
 
         #region Ctor
@@ -38,7 +44,9 @@ namespace APIModels
                     string spanishInf,
                     string englishInf,
                     List<VerbConjugations> conjugations = null,
-                    List<int> conjugationRulesIds = null)
+                    List<int> conjugationRulesIds = null,
+                    string pastParticiple = null,
+                    string presentParticiple = null)
         {
             this.id = id;
             this.description = desc;
@@ -46,6 +54,8 @@ namespace APIModels
             this.englishInfinative = englishInf;
             this.conjugations = conjugations;
             this.conjugationRulesIds = conjugationRulesIds;
+            this.presentParticiple = presentParticiple;
+            this.pastParticiple = pastParticiple;
         }
 
         #endregion

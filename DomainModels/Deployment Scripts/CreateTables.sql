@@ -38,6 +38,7 @@ CREATE TABLE [dbo].[Tenses] (
     [Time]                     INT            NULL,
     [RugularConjugationRuleId] INT            NOT NULL,
     [PersonsCount]             INT            NULL,
+	[Enabled]				   BIT			  NOT NULL Default 0
     PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [AK_Tenses_Name] UNIQUE NONCLUSTERED ([Name] ASC)
 );
