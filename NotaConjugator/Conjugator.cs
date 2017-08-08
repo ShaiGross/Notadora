@@ -27,7 +27,7 @@ namespace NotaConjugator
 
         public string Conjugate(Verb verb, Tense tense, Person person)
         {
-            var appliedTenseConjugationRules = context.GetVerbConjugationRules(verb, tense);
+            var appliedTenseConjugationRules = context.GetVerbsConjugationRules(verb, tense);
             return null;
         }
     }

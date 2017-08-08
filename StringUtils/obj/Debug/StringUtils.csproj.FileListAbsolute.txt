@@ -2,3 +2,4 @@ C:\Projects\Dev\NotadoraSolution\StringUtils\bin\Debug\StringUtils.dll
 C:\Projects\Dev\NotadoraSolution\StringUtils\bin\Debug\StringUtils.pdb
 C:\Projects\Dev\NotadoraSolution\StringUtils\obj\Debug\StringUtils.dll
 C:\Projects\Dev\NotadoraSolution\StringUtils\obj\Debug\StringUtils.pdb
+C:\Projects\Dev\NotadoraSolution\StringUtils\obj\Debug\StringUtils.csprojResolveAssemblyReference.cache
